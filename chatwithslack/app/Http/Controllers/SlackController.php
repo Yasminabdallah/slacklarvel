@@ -43,7 +43,11 @@ class SlackController extends Controller
 
 
     public function attach (Request $request){
-        flashy()->error('Your message is sent ');
+        $msg=Message::create([
+            'message' => $request,
+            'user_id'=>Auth::user()->id,
+            'file'=>$filename,
+        ]);
 
     }
 }

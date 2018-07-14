@@ -19,3 +19,4 @@ Route::get('/home', 'SlackController@index')->middleware('auth');
 
 Route::post('/send','SlackController@send');
 Route::post('/attach','SlackController@attach');
+
