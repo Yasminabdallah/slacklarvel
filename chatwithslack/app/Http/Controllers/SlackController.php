@@ -43,7 +43,12 @@ class SlackController extends Controller
 
 
     public function attach (Request $request){
-       dd($request);
+        if ($request){
+            return redirect('/' );
+        }
+        else{
+            return redirect('/' );
+        }
      
     }
 }
