@@ -101,6 +101,7 @@
                    
                   $('.messages').append('<h4>'+response.name+'</h4>');
                     $('.messages').append('<p>'+response.message+'</p>');
+                    $('#message').val("");
                     
 
                    }
