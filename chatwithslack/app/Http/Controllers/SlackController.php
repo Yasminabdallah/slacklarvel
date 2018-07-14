@@ -43,7 +43,7 @@ class SlackController extends Controller
 
 
     public function attach (Request $request){
-        
-        dd($request);
+       dd($request);
+     
     }
 }
