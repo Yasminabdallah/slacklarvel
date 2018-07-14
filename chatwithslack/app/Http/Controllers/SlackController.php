@@ -43,6 +43,7 @@ class SlackController extends Controller
 
 
     public function attach (Request $request){
+        log()->error('we have reached the attach method');
         $msg=Message::create([
             'message' => $request,
             'user_id'=>Auth::user()->id,
