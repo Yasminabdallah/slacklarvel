@@ -18,4 +18,4 @@ Auth::routes();
 Route::get('/home', 'SlackController@index')->middleware('auth');
 
 Route::post('/send','SlackController@send');
-Route::get('/attach','SlackController@attach');
+Route::post('/attach','SlackController@attach');
