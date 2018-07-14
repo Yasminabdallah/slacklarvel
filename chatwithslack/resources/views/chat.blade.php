@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
+@include('flashy::message')
 
 <section class="editing-forms">
     <div class="container">
@@ -20,20 +20,18 @@
                     </ul>
                 </div>
             @endif
-            <form  method="post" action="/send" enctype="multipart/form-data">
-            {{method_field('POST')}}
-            {{csrf_field()}}
+          
                
                 <div class="row">
                     <div class="col-md-12">
                         <label >Message</label>
-                        <textarea name="message" class="form-control txt-area" placeholder="Add message to send ..."></textarea>
+                        <textarea  id="message" name="message" class="form-control txt-area" placeholder="Add message to send ..." required></textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <label for="image"> Choose From Your Comuter</label>
-                        <input type="file" class="form-control-file ml-3 mt-2" name="file"/>
+                        <input id="file" type="file" class="form-control-file ml-3 mt-2" name="file"/>
                     </div>
                 </div>
                
@@ -41,17 +39,82 @@
                 
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <input type="submit" value="Send" class="btn btn-primary pl-5 pr-5">
+                    <input type="submit"  id="send" value="SEND" class="btn btn-secondary ">
                     </div>
                 </div>
 
-            </form>
+            
             </div>
         </div>
     </div>
+    @if($messages)
+    <div class="row ">
+    <div class="col-md-12 messages">
+  
+                <h2>All Messages You Sent </h2>
+    
+        @foreach($messages as $message)
+
+         <h4>{{$message->user->name}}</h4>
+         <p>{{$message->message}}  at  {{$message->created_at->diffForHumans()}}</p>
+       
+            
+
+                       
+
+                    
+               
+          
+            @endforeach
+            </div> 
+            </div>     
+    
+    @endif
+
+
+
+     
+
+        
+            
    
 </section>
-@include('flashy::message')
+<script>
+    $(document).ready( function(){
+
+    $('#send').on('click',function(){
+        var msg=$('#message').val();
+        var file=$('#file').val();
+   
+        $.ajax({
+                url: '/send',
+                type:'POST',
+                data:{
+                    '_token':'{{csrf_token()}}',
+                   
+                    'message':msg,
+                    'file':file,
+
+                },
+                success:function(response){
+                    if(response.response =='success'){
+                   
+                  $('.messages').append('<h4>'+response.name+'</h4>');
+                    $('.messages').append('<p>'+response.message+'</p>');
+                    
+
+                   }
+                   else{
+                    console.log(response.response);
+                    alert('You Cant send message');
+                   }
+                }
+
+        })
+
+    });
+    });
+</script>
 
 @endsection
 

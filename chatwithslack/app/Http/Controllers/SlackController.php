@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Notifications\SlackNotification;
 use App\Message;
-
+use App\User;
 
 class SlackController extends Controller
 {
     public function index (){
+        $messages=User::find(Auth::user()->id)->messages;
+        //dd($messages);
 
-        return view('chat');
+        return view('chat',['messages'=> $messages]);
     }
-    public function send (Request $request){
+    public function send ( Request $request){
+       
         $filename=null;
         $typefile=null;
         
@@ -35,9 +38,9 @@ class SlackController extends Controller
         $user->notify(new SlackNotification($user->name,$msg,$typefile));
         flashy()->error('Your message is sent ');
         
-       
+        return response()->json(['name'=>Auth::user()->name,'response' => 'success','message'=>$request->message]);
      
-        return redirect('/home' );
+       
 
     }
 
